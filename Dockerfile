@@ -9,9 +9,7 @@ COPY build.gradle .
 
 COPY src src
 
-RUN chmod +x gradlew
-
-RUN ./gradlew clean build -x test
+RUN chmod +x gradlew && ./gradlew clean build -x test
 
 FROM tomcat:9-jdk17-temurin
 
