@@ -9,7 +9,7 @@ COPY build.gradle .
 
 COPY src src
 
-RUN chmod +x gradlew && ./gradlew clean build -x test
+RUN chmod +x gradlew && ./gradlew clean build -x test --no-daemon --refresh-dependencies
 
 FROM tomcat:9-jdk17-temurin
 
