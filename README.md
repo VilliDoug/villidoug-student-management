@@ -1,2 +1,3 @@
-# rt-student-management
-RaiseTech Javaコースの課題をPRで提出するためにこのレポジトリー作りました。
+# 受講生管理システム・Student Management System
+
+**ポートフォリオ作成中です**
