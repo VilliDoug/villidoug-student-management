@@ -462,8 +462,7 @@ deactivate Ctrl
 ・現在、デプロイを学習しており(AWSのEC2・RDSなど, CI:CD, GitHubActions, Docker)、
 早いうちにデプロイをできるように進んでいきます。
 
-・デプロイ後は、フロントエンドの学習をして、
-JavaScript → React → Next.js を実装するつもりです。<br/>
+・デプロイ後は、フロントエンド(JavaScript → React → Next.js)の学習をして、実装するつもりです。<br/>
 ユーザビリティを中心にしてプロジェクトを作成していきたいです。
 
 ・Homeページ<br/>
