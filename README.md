@@ -1,3 +1,6 @@
+
+<img width="1024" height="572" alt="smsystem" src="https://github.com/user-attachments/assets/0032070f-c8eb-4cc9-8449-762bb96e53fd" />
+
 <details open>
 <summary>受講生募集システム</summary>
 
