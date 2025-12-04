@@ -1,3 +1,6 @@
+
+<img width="1024" height="572" alt="smsystem" src="https://github.com/user-attachments/assets/0032070f-c8eb-4cc9-8449-762bb96e53fd" />
+
 <details open>
 <summary>受講生募集システム</summary>
 
@@ -440,8 +443,8 @@ deactivate Ctrl
     - ApplicationStatus
 への変更。
 
-【受講生 1:多 コース】<br/>
-【コース 1:1　申込状況】<br/>
+【以前のデータ設計】 受講生 1 : 多 コース　<br/>
+【リファクタリング後の設計】 受講生 1 : 多 コース、コース 1 : 1 申込状況 <br/>
 
 ・URI Path を REST APIエンドポイントの命名に関するベストプラクティスを考慮しました。
 
@@ -453,13 +456,19 @@ deactivate Ctrl
 - 登録のリクエスト　→　コース開始日、申込状況を自動採番
 - 論理削除をしたい場合は、更新処理で簡単にできるようにしています(削除フラグを変更)
 
+【AWS環境でのデプロイと運用】 
+・ EC2、RDS、VPC、セキュリティグループ、そしてNACLを使用して、アプリケーションをAWS上にデプロイしました。
+
+【最大の課題：ネットワーク接続】
+外部からのWebアクセス (Port 8080) や、EC2からRDSへのDB接続の際、NACLのアウトバウンド・インバウンドルール設定で苦戦しました。特に、応答パケット用のエフェメラルポートの必要性を深く理解しました。  
+
 </details>
 <details open>
 <summary>今後の展望</summary>
 
 ## 今後の展望
 
-・現在、デプロイを学習しており(AWSのEC2・RDSなど, CI:CD, GitHubActions, Docker)、
+・現在、デプロイを学習しており(CI:CD, GitHubActions, Docker)、
 早いうちにデプロイをできるように進んでいきます。
 
 ・デプロイ後は、フロントエンド(JavaScript → React → Next.js)の学習をして、実装するつもりです。<br/>
