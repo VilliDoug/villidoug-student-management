@@ -11,6 +11,9 @@ env:
   EC2_USER: 'ec2-user'
   EC2_HOST: '3.112.41.87'
   SRC_PATH: 'build/libs/*.jar'
+  DB_HOST: ${{ secrets.DB_HOST }}
+  DB_USERNAME: ${{ secrets.DB_USERNAME }}
+  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
   DEST_PATH: '/home/ec2-user/student.management.jar'
 
 jobs:
@@ -33,7 +36,10 @@ jobs:
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
     - name: Test with Gradle Wrapper
-      run: ./gradlew test
+      run: |
+        ./gradlew test -Dspring.datasource.url="jdbc:mysql://${DB_HOST}/student_management?autoReconnect=true&useSSL=false" \
+                       -Dspring.datasource.username="${DB_USERNAME}" \
+                       -Dspring.datasource.password="${DB_PASSWORD}"
 
     - name: Build with Gradle Wrapper
       run: ./gradlew bootJar
@@ -84,8 +90,4 @@ jobs:
             sudo systemctl restart student.management
           else
             sudo systemctl start student.management
-          fi
-      env:
-        DB_HOST: ${{ secrets.DB_HOST }}
-        DB_USERNAME: ${{ secrets.DB_USERNAME }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          fi      
