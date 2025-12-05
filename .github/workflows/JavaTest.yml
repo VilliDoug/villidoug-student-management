@@ -11,15 +11,16 @@ env:
   EC2_HOST: '3.112.41.87'
   SRC_PATH: 'build/libs/*.jar'
   DEST_PATH: '/home/ec2-user/student.management.jar'
+  DB_HOST: ${{ secrets.DB_HOST }}
+  DB_USERNAME: ${{ secrets.DB_USERNAME }}
+  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
 jobs:
   deploy:
 
     runs-on: ubuntu-latest
 
-    DB_HOST: ${{ secrets.DB_HOST }}
-    DB_USERNAME: ${{ secrets.DB_USERNAME }}
-    DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+
 
     steps:
       - uses: actions/checkout@v4
