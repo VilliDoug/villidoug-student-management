@@ -52,7 +52,7 @@ class MainControllerTest {
    */
   @Test
   void 受講生詳細の一覧検索が実行できて空のリストが返ってくること() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.get("/students"))
+    mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/students"))
         .andExpect(status().isOk());
 
     verify(service, times(1)).searchStudentList(
@@ -67,7 +67,7 @@ class MainControllerTest {
     when(service.searchStudentList(null, null, null, null, null))
         .thenThrow(new RuntimeException("内部サーバー エラーが発生しました。"));
 
-    mockMvc.perform(MockMvcRequestBuilders.get("/students"))
+    mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/students"))
         .andExpect(status().isInternalServerError());
 
     verify(service, times(1)).searchStudentList(
@@ -98,7 +98,7 @@ class MainControllerTest {
   void 受講生詳細の検索をIDで検索する時_IDに数字以外を用いた時_400エラーが発生すること() throws Exception {
     String invalidId = "Test";
 
-    mockMvc.perform(MockMvcRequestBuilders.get("/students/{id}", invalidId))
+    mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/students/{id}", invalidId))
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.validationErrors").exists());
 
@@ -117,7 +117,7 @@ class MainControllerTest {
     when(service.searchStudentId(id))
         .thenReturn(null);
 
-    mockMvc.perform(MockMvcRequestBuilders.get("/students/{id}", idString))
+    mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/students/{id}", idString))
         .andExpect(status().isNotFound());
 
     verify(service, times(1)).searchStudentId(id);
@@ -134,7 +134,7 @@ class MainControllerTest {
     when(service.searchStudentId(id))
         .thenThrow(new RuntimeException("内部サーバー エラーが発生しました。"));
 
-    mockMvc.perform(MockMvcRequestBuilders.get("/students/999"))
+    mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/students/999"))
         .andExpect(status().isInternalServerError());
 
     verify(service, times(1)).searchStudentId(id);
@@ -169,7 +169,7 @@ class MainControllerTest {
     when(service.registerStudent(Mockito.any(StudentDetail.class)))
         .thenReturn(expectedDetail);
 
-    mockMvc.perform(MockMvcRequestBuilders.post("/students")
+    mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/students")
             .contentType(MediaType.APPLICATION_JSON).content(jsonBody))
         .andExpect(status().isOk())
         .andExpect(content().json(jsonBody));
@@ -199,7 +199,7 @@ class MainControllerTest {
 
     String jsonBody = objectMapper.writeValueAsString(expectedDetail);
 
-    mockMvc.perform(MockMvcRequestBuilders.post("/students")
+    mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/students")
             .contentType(MediaType.APPLICATION_JSON).content(jsonBody))
         .andExpect(status().isBadRequest())
         .andDo(result ->
@@ -230,7 +230,7 @@ class MainControllerTest {
     when(service.registerStudent(Mockito.any(StudentDetail.class)))
         .thenThrow(new RuntimeException("内部サーバー エラーが発生しました。"));
 
-    mockMvc.perform(MockMvcRequestBuilders.post("/students")
+    mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/students")
         .contentType(MediaType.APPLICATION_JSON)
         .content(jsonBody))
         .andExpect(status().isInternalServerError())
@@ -267,7 +267,7 @@ class MainControllerTest {
 
     String jsonBody = objectMapper.writeValueAsString(expectedDetail);
 
-    mockMvc.perform(MockMvcRequestBuilders.put("/students/{id}", 999)
+    mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/students/{id}", 999)
             .contentType(MediaType.APPLICATION_JSON).content(jsonBody))
         .andExpect(status().isOk())
         .andExpect(content().string("更新処理が成功しました。"));
@@ -297,7 +297,7 @@ class MainControllerTest {
 
     String jsonBody = objectMapper.writeValueAsString(expectedDetail);
 
-    mockMvc.perform(MockMvcRequestBuilders.put("/students/{id}", 999)
+    mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/students/{id}", 999)
             .contentType(MediaType.APPLICATION_JSON).content(jsonBody))
         .andExpect(status().isBadRequest())
         .andDo(result ->
@@ -338,7 +338,7 @@ class MainControllerTest {
     .when(service)
         .updateStudent(Mockito.any(StudentDetail.class));
 
-    mockMvc.perform(MockMvcRequestBuilders.put("/students/{id}", 1)
+    mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/students/{id}", 1)
             .contentType(MediaType.APPLICATION_JSON)
             .content(jsonBody))
         .andExpect(status().isInternalServerError())
@@ -358,7 +358,7 @@ class MainControllerTest {
     when(service.searchStudentList(expectedName, null, null,null,null))
         .thenReturn(expectedDetails);
 
-    mockMvc.perform(MockMvcRequestBuilders.get("/students?name=Test"))
+    mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/students?name=Test"))
         .andExpect(status().isOk());
 
     verify(service, times(1))
@@ -379,7 +379,7 @@ class MainControllerTest {
         .thenReturn(expectedDetails);
 
     mockMvc.perform(MockMvcRequestBuilders.get(
-        "/students?name=Tommy&emailAddress=bommytums@example.com&gender=Male&courseName=Show&applicationStatus=Expelled"))
+        "/api/v1/students?name=Tommy&emailAddress=bommytums@example.com&gender=Male&courseName=Show&applicationStatus=Expelled"))
         .andExpect(status().isOk());
 
     verify(service, times(1))
