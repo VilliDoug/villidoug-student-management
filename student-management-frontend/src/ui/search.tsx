@@ -1,5 +1,6 @@
 'use-client'
 
+import { MagnifyingGlassCircleIcon } from "@heroicons/react/16/solid";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -27,7 +28,11 @@ export default function Search ({ placeholder }: { placeholder: string }) {
             onChange={(e) => {
                 handleSearch(e.target.value);
             }}
-            defaultValue={searchParams.get('query')?.toString()}/>
+            defaultValue={searchParams.get('query')?.toString()}>
+                <MagnifyingGlassCircleIcon className="h-5 w-5" />
+            </input>
         </div>
+        
+        
     )
 }

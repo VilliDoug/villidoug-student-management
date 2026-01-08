@@ -34,7 +34,7 @@ export interface CourseDetail {
 
 export interface StudentDetail {
     student: Student;
-    courseDetails: CourseDetail[];
+    courseDetailList: CourseDetail[];
 }
 
 export interface SearchFilters {

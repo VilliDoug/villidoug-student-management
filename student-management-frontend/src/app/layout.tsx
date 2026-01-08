@@ -14,7 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja" className={nunito.className}>
-      <body className={`${nunito.className} antialiased`}>{children}</body>
+      <body className={`${nunito.className} antialiased bg-white text-black min-h-screen`} >
+        {children}
+        </body>
     </html>
   );
 }
