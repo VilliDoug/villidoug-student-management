@@ -13,7 +13,7 @@ export default async function StudentCard({
   return (
     <div className="min-h-screen bg-gray-50 text-black">
         {/* Back button */}
-        <Link href="/students" className="inline-flex px-4 py-1.5 rounded-md items-center gap-2 text-sm text-gray-500 hover:bg-sky-600 hover:text-white transition-all group">
+        <Link href="/students" className="inline-flex px-4 py-1.5 border rounded-md items-center gap-2 text-sm text-gray-500 hover:bg-sky-600 hover:text-white transition-all group">
         <ArrowLeftIcon className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
         受講生一覧に戻る
         </Link>

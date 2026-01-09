@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { nunito } from "@/ui/fonts";
+import { nunito } from "@/lib/Fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,9 +14,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja" className={nunito.className}>
-      <body className={`${nunito.className} antialiased bg-white text-black min-h-screen`} >
+      <body
+        className={`${nunito.className} antialiased bg-white text-black min-h-screen`}
+      >
         {children}
-        </body>
+      </body>
     </html>
   );
 }
