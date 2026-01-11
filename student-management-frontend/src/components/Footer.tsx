@@ -17,6 +17,8 @@ export default function Footer() {
         <p className="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4">
           <a
             href="https://github.com/VilliDoug/villidoug-student-management"
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-body text-gray-500 justify-center hover:text-gray-900 transition-all hover:text-heading hover:scale-95"
           >
             <svg

@@ -17,7 +17,8 @@ export default function Header ({ userName }: HeaderProps) {
                     </span>
                 </span> 
                 <Link href="/" className="flex gap-3 px-4 py-2 text-sm text-white font-medium border rounded-md hover:bg-red-400 transition-colors">
-                ログアウト<ArrowLeftStartOnRectangleIcon className="h-5 w-5" />
+                ログアウト
+                <ArrowLeftStartOnRectangleIcon className="h-5 w-5" />
                 </Link>                   
             </div>
         </nav>

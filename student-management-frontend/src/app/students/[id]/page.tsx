@@ -20,7 +20,7 @@ export default async function StudentIdPage({
  return (
     <div className="min-h-screen flex flex-col bg-gray-50 text-black">
         <Header userName="ゲスト" />
-        <main className="p-8 flex justify-center">
+        <main className="flex flex-grow justify-center">
             <StudentCard studentsData={data} />
         </main>
         <Footer />

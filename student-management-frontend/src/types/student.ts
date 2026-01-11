@@ -18,7 +18,7 @@ export interface Course {
     studentId?: string;
     courseName: string;
     courseStartAt: string;
-    courseEndAt: string;
+    courseEndAt: string | null;
 }
 
 export interface ApplicationStatus {

@@ -1,11 +1,10 @@
-import { Student, StudentDetail } from "@/types/student";
-import { nunito } from "@/lib/Fonts";
+import { StudentDetail } from "@/types/student";
 import Link from "next/link";
 
 
 export default async function StudentsTable({ students }: {students: StudentDetail[]}) {
   return (
-    <div className=" w-full max-h-[600px] overflow-y-auto rounded-md border border-gray-200">
+    <div className=" w-full max-h-[600px] overflow-y-auto shadow-sm rounded-md border border-gray-200">
       <table className="w-full text-left border-separate border-spacing-0 table-auto">
         <thead>
           <tr className="text-sm font-semibold text-gray-700">

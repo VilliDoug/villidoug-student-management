@@ -124,16 +124,25 @@ public class MainService {
    */
   @Transactional
   public void updateStudent(StudentDetail studentDetail) {
-    studentDetail.getCourseDetailList().forEach(courseDetail -> {
-      repository.updateCourseName(courseDetail.getCourse());
-      Course course = courseDetail.getCourse();
+    repository.updateStudent(studentDetail.getStudent());
 
-      ApplicationStatus status = Objects.requireNonNullElse(
-          courseDetail.getApplicationStatus(), new ApplicationStatus());
+    studentDetail.getCourseDetailList().forEach(courseDetail -> {
+      Course course = courseDetail.getCourse();
+      ApplicationStatus status = courseDetail.getApplicationStatus();
+
+      if (course.getId() == null) {
+        course.setStudentId(studentDetail.getStudent().getId());
+        repository.registerCourse(course);
+      } else {
+        repository.updateCourseName(course);
+      }
+      
       status.setCourseId(course.getId());
 
       if (status.getId() == null) {
-        status.setApplicationStatus("仮申込");
+        if (status.getApplicationStatus() == null) {
+          status.setApplicationStatus("仮申込");
+        }
         repository.registerStatus(status);
       } else {
         repository.updateStatus(status);

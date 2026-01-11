@@ -3,6 +3,8 @@ import Header from "@/components/Header";
 import StudentsTable from "@/components/StudentsTable";
 import { StudentDetail } from "@/types/student";
 import Search from "@/components/Search";
+import { ArrowLeftIcon } from "@heroicons/react/16/solid";
+import Link from "next/link";
 
 export default async function StudentsPage({
   searchParams,
@@ -27,7 +29,14 @@ export default async function StudentsPage({
                     <Search placeholder="氏名を入力"/>
                 </div>
                 
-                <StudentsTable key={query} students={studentsData} />                    
+                <StudentsTable key={query} students={studentsData} /> 
+                <div className="my-4 flex justify-end">
+                    <Link href="/dashboard" className="inline-flex px-4 py-1.5 border rounded-md items-center gap-2 text-sm text-gray-500 hover:bg-sky-600 hover:text-white transition-all group">
+        <ArrowLeftIcon className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+        メインメニュー
+        </Link> 
+                </div>
+                                  
             </main>            
              <Footer/>
         </div>
