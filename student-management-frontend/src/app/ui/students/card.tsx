@@ -1,4 +1,4 @@
-import { StudentDetail } from "@/types/student";
+import { StudentDetail } from "@/app/lib/definitions";
 import { ArrowLeftIcon, UserCircleIcon } from "@heroicons/react/16/solid";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";

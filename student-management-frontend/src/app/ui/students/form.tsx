@@ -1,6 +1,11 @@
 "use client";
 
-import { CourseDetail, STATUSES, Student, StudentDetail } from "@/types/student";
+import {
+  CourseDetail,
+  STATUSES,
+  Student,
+  StudentDetail,
+} from "@/app/lib/definitions";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -67,22 +72,20 @@ export default function StudentForm({
         ...studentInfo,
         age: Number(studentInfo.age),
       },
-      courseDetailList: courseDetails.map((item: CourseDetail) => (
-        {
-          course: {
-            id: item.course.id || undefined,
-            studentId: studentInfo.id,
-            courseName: item.course.courseName,
-            courseStartAt: item.course.courseStartAt,
-            courseEndAt: item.course.courseEndAt || null,
-          },
-          applicationStatus: {
-            id: item.applicationStatus?.id || undefined,
-            courseId: item.course?.id || undefined,
-            applicationStatus: item.applicationStatus.applicationStatus,
-          },
-        })),
-      
+      courseDetailList: courseDetails.map((item: CourseDetail) => ({
+        course: {
+          id: item.course.id || undefined,
+          studentId: studentInfo.id,
+          courseName: item.course.courseName,
+          courseStartAt: item.course.courseStartAt,
+          courseEndAt: item.course.courseEndAt || null,
+        },
+        applicationStatus: {
+          id: item.applicationStatus?.id || undefined,
+          courseId: item.course?.id || undefined,
+          applicationStatus: item.applicationStatus.applicationStatus,
+        },
+      })),
     };
 
     const method = isEdit ? "PUT" : "POST";
@@ -105,6 +108,17 @@ export default function StudentForm({
       }
     } catch (error) {
       console.error("登録できませんでした:", error);
+    }
+  };
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deleteConfirmText, setDeleteConfirmText] = useState("");
+
+  const handleDeleteToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      setIsDeleteModalOpen(true);
+    } else {
+      setStudentInfo({ ...studentInfo, wasDeleted: false });
     }
   };
 
@@ -230,105 +244,160 @@ export default function StudentForm({
         </div>
       </div>
 
-     {/* Course info */}
-<div className="pt-6 border-t border-gray-100">
-  <div className="flex justify-between items-center mb-6">
-    <h3 className="text-lg font-bold text-gray-800">コース申込情報</h3>
-    <button
-      type="button"
-      onClick={() => setCourseDetails([...courseDetails, { 
-        course: { courseName: '', courseStartAt: '', courseEndAt: '' }, 
-        applicationStatus: { applicationStatus: '仮申込' } 
-      }])}
-      className="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700"
-    >
-      + 追加
-    </button>
-  </div>
+      {/* Course info */}
+      <div className="pt-6 border-t border-gray-100">
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-lg font-bold text-gray-800">コース申込情報</h3>
+          <button
+            type="button"
+            onClick={() =>
+              setCourseDetails([
+                ...courseDetails,
+                {
+                  course: {
+                    courseName: "",
+                    courseStartAt: "",
+                    courseEndAt: "",
+                  },
+                  applicationStatus: { applicationStatus: "仮申込" },
+                },
+              ])
+            }
+            className="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700"
+          >
+            + 追加
+          </button>
+        </div>
 
-  {courseDetails.map((detail, index) => (
-    <div key={index} className="p-4 mb-6 border border-gray-300 rounded-lg bg-gray-50 grid grid-cols-1 md:grid-cols-2 gap-4">
-      {/* Course Name */}
-      <div className="flex flex-col gap-1 md:col-span-2">
-        <label className="text-sm font-semibold text-gray-600">コース ({index + 1})</label>
-        <select
-          className="border border-gray-300 p-2 rounded bg-white"
-          value={detail.course.courseName}
-          onChange={(e) => {
-            const updated = [...courseDetails];
-            updated[index].course.courseName = e.target.value;
-            setCourseDetails(updated);
-          }}
-        >
-          <option value="Java Course">Java Course</option>
-          <option value="AWS Course">AWS Course</option>
-          <option value="Python Course">Python Course</option>
-          <option value="Web Design Course">Web Design Course</option>
-        </select>
+        {courseDetails.map((detail, index) => (
+          <div
+            key={index}
+            className="p-4 mb-6 border border-gray-300 rounded-lg bg-gray-50 grid grid-cols-1 md:grid-cols-2 gap-4"
+          >
+            {/* Course Name */}
+            <div className="flex flex-col gap-1 md:col-span-2">
+              <label className="text-sm font-semibold text-gray-600">
+                コース ({index + 1})
+              </label>
+              <select
+                className="border border-gray-300 p-2 rounded bg-white"
+                value={detail.course.courseName}
+                onChange={(e) => {
+                  const updated = [...courseDetails];
+                  updated[index].course.courseName = e.target.value;
+                  setCourseDetails(updated);
+                }}
+              >
+                <option value="Java Course">Java Course</option>
+                <option value="AWS Course">AWS Course</option>
+                <option value="Python Course">Python Course</option>
+                <option value="Web Design Course">Web Design Course</option>
+              </select>
+            </div>
+
+            {/* Start Date */}
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-semibold text-gray-600">
+                受講開始日
+              </label>
+              <input
+                type="date"
+                className="border border-gray-300 p-2 rounded"
+                value={detail.course.courseStartAt}
+                onChange={(e) => {
+                  const updated = [...courseDetails];
+                  updated[index].course.courseStartAt = e.target.value;
+                  setCourseDetails(updated);
+                }}
+              />
+            </div>
+
+            {/* End Date */}
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-semibold text-gray-600">
+                受講終了日
+              </label>
+              <input
+                type="date"
+                className="border border-gray-300 p-2 rounded"
+                value={detail.course.courseEndAt}
+                onChange={(e) => {
+                  const updated = [...courseDetails];
+                  updated[index].course.courseEndAt = e.target.value;
+                  setCourseDetails(updated);
+                }}
+              />
+            </div>
+
+            {/* Status */}
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-semibold text-gray-600">
+                ステータス
+              </label>
+              <select
+                className="border border-gray-300 p-2 rounded bg-white"
+                value={detail.applicationStatus.applicationStatus}
+                onChange={(e) => {
+                  const updated = [...courseDetails];
+                  updated[index].applicationStatus.applicationStatus = e.target
+                    .value as any;
+                  setCourseDetails(updated);
+                }}
+              >
+                {STATUSES.map((s) => (
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        ))}
       </div>
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg maw-w-sm w-full">
+            <h3 className="text-lg font-bold mb-4">本当に削除しますか？</h3>
+            <p className="text-sm text-gray-600 mb-4">
+              確認のため、下に「
+              <span className="font-mono font-bold text-red-600">DELETE</span>
+              」と入力してください。
+            </p>
 
-      {/* Start Date */}
-      <div className="flex flex-col gap-1">
-        <label className="text-sm font-semibold text-gray-600">受講開始日</label>
-        <input
-          type="date"
-          className="border border-gray-300 p-2 rounded"
-          value={detail.course.courseStartAt}
-          onChange={(e) => {
-            const updated = [...courseDetails];
-            updated[index].course.courseStartAt = e.target.value;
-            setCourseDetails(updated);
-          }}
-        />
-      </div>
+            <input
+              type="text"
+              placeholder="DELETE"
+              value={deleteConfirmText}
+              onChange={(e) => setDeleteConfirmText(e.target.value)}
+              className="border w-full p-2 mb-4 rounded"
+            />
 
-      {/* End Date */}
-      <div className="flex flex-col gap-1">
-        <label className="text-sm font-semibold text-gray-600">受講終了日</label>
-        <input
-          type="date"
-          className="border border-gray-300 p-2 rounded"
-          value={detail.course.courseEndAt}
-          onChange={(e) => {
-            const updated = [...courseDetails];
-            updated[index].course.courseEndAt = e.target.value;
-            setCourseDetails(updated);
-          }}
-        />
-      </div>
-
-      {/* Status */}
-      <div className="flex flex-col gap-1">
-        <label className="text-sm font-semibold text-gray-600">ステータス</label>
-        <select
-          className="border border-gray-300 p-2 rounded bg-white"
-          value={detail.applicationStatus.applicationStatus}
-          onChange={(e) => {
-            const updated = [...courseDetails];
-            updated[index].applicationStatus.applicationStatus = e.target.value as any;
-            setCourseDetails(updated);
-          }}
-        >
-          {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
-        </select>
-      </div>
-    </div>
-  ))}
-</div>
-
-          
+            <div className="flex justify-end gap-2">
+              <button
+                className="px-4 py-2 text-gray-600 border rounded"
+                onClick={() => {
+                  setIsDeleteModalOpen(false);
+                  setDeleteConfirmText("");
+                }}
+              >
+                削除を確定する
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="mt-8 flex gap-4">
         <button
           type="button"
           onClick={() => router.back()}
-          className="flex-1 py-2 border border-gray-300 rounded-md text-gray-600 hover:bg-red-400 transition-colors"
+          className="flex-1 py-2 border border-gray-300 rounded-md text-gray-600 hover:bg-red-400 transition-colors cursor-pointer"
         >
           キャンセル
         </button>
         <button
           type="submit"
-          className="flex-1 py-2 bg-sky-500 text-white rounded-md hover:bg-sky-600 transition-colors font-bold"
+          className="flex-1 py-2 bg-sky-500 text-white rounded-md hover:bg-sky-600 transition-colors font-bold cursor-pointer"
         >
           {isEdit ? "更新する" : "登録する"}
         </button>

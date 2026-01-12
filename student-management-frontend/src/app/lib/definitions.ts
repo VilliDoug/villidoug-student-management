@@ -32,7 +32,7 @@ export interface CourseDetail {
     applicationStatus: ApplicationStatus;
 }
 
-export interface StudentDetail {
+export interface StudentDetail {    
     student: Student;
     courseDetailList: CourseDetail[];
 }

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { nunito } from "@/lib/Fonts";
-import "./globals.css";
+import { nunito } from "@/app/lib/fonts";
+import "./ui/globals.css";
 
 export const metadata: Metadata = {
   title: "Student Management App",
