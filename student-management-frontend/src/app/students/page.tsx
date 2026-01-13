@@ -17,6 +17,8 @@ export default async function StudentsPage({
     ? `${baseUrl}/students?name=${query}`
     : `${baseUrl}/students`;
 
+  
+
   const response = await fetch(apiUrl, {
     cache: "no-store",
   });

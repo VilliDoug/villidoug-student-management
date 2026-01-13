@@ -6,7 +6,7 @@ export default async function StudentsTable({
 }: {
   students: StudentDetail[];
 }) {
-  const safeStudents = Array.isArray(students) ? students : [];
+  const safeStudents = Array.isArray(students) ? students : [];  
 
   return (
     <div className=" w-full max-h-[600px] overflow-y-auto shadow-sm rounded-md border border-gray-200">

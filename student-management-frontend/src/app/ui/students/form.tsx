@@ -114,24 +114,120 @@ export default function StudentForm({
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteConfirmText, setDeleteConfirmText] = useState("");
 
-  const handleDeleteToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
-      setIsDeleteModalOpen(true);
-    } else {
+  const handleDeleteToggle = (e?: React.ChangeEvent<HTMLInputElement>) => {
+    if (e) {
+      if(e.target.checked) {
+        setIsDeleteModalOpen(true);
+      } else {
       setStudentInfo({ ...studentInfo, wasDeleted: false });
+      }
+    } else {
+      setIsDeleteModalOpen(false);
+      setDeleteConfirmText("");
     }
   };
+
+  const handleLogicalDelete = async () => {
+    const payload: StudentDetail = {
+    student: {
+      ...studentInfo,
+      wasDeleted: true, // This is the only change!
+      age: Number(studentInfo.age),
+    },
+    courseDetailList: courseDetails.map((item: CourseDetail) => ({
+      course: {
+        ...item.course,
+        studentId: studentInfo.id,
+        courseEndAt: item.course.courseEndAt || null,
+      },
+      applicationStatus: {
+        ...item.applicationStatus,
+      },
+    })),
+  };
+
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
+
+    try {
+      const response = await fetch(`${baseUrl}/students/${initialData?.student.id}`, {
+        method: 'PUT',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if(response.ok) {
+        setIsDeleteModalOpen(false);
+        router.push("/students");
+        router.refresh();
+      } else {
+        alert("削除に失敗しました。")
+      }
+    } catch (error) {
+      console.error("Delete error:", error);
+      alert("通信エラーが発生しました。");
+    }
+  };
+
+  const handleRestore = async () => {
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
+
+    const payload: StudentDetail = {
+    student: {
+      ...studentInfo,
+      wasDeleted: false,
+      age: Number(studentInfo.age),
+    },
+    courseDetailList: courseDetails.map((item: CourseDetail) => ({
+      course: {
+        ...item.course,
+        studentId: studentInfo.id,
+        courseEndAt: item.course.courseEndAt || null,
+      },
+      applicationStatus: {
+        ...item.applicationStatus,
+      },
+    })),
+  };
+  try {
+    const response = await fetch(`${baseUrl}/students/${initialData?.student.id}`, {
+      method: 'PUT',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (response.ok) {
+      // Update local state so the banner disappears immediately
+      setStudentInfo({ ...studentInfo, wasDeleted: false });
+      alert("受講生を復元しました。");
+      router.refresh(); 
+    }
+  } catch (error) {
+    console.error("Restore error:", error);
+  }
+};
+
 
   return (
     <form
       onSubmit={handleSubmit}
       className="p-8 rounded-xl shadow-sm border border-gray-200 max-w-2xl mx-auto"
-    >
+    >      
       <h3 className="text-lg font-bold mb-6 text-gray-800 border-b pb-4">
         {isEdit ? "受講生情報の編集" : "新規受講生登録"}
       </h3>
+      {studentInfo.wasDeleted && (
+          <div className="bg-amber-50 border-amber-200 p-4 mb-6 rounded-lg flex justify-between items-center">
+            <div>
+              <p className="text-amber-800 font-bold">本受講生は現在アーカイブされています。</p>
+            </div>
+            <button type="button" onClick={handleRestore} className="w-20 px-4 py-2 bg-amber-600 text-white font-bold rounded-md hover:bg-amber-700 transition-colors">
+              復元
+            </button>
+          </div>
+        )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
         {/* Name Fields */}
         <div className="space-y-2">
           <label className="text-sm font-medium text-gray-700">氏名</label>
@@ -320,7 +416,7 @@ export default function StudentForm({
               <input
                 type="date"
                 className="border border-gray-300 p-2 rounded"
-                value={detail.course.courseEndAt}
+                value={detail.course.courseEndAt ?? ""}
                 onChange={(e) => {
                   const updated = [...courseDetails];
                   updated[index].course.courseEndAt = e.target.value;
@@ -355,8 +451,8 @@ export default function StudentForm({
         ))}
       </div>
       {isDeleteModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg maw-w-sm w-full">
+        <div className="fixed inset-0 bg-gray-700 bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
             <h3 className="text-lg font-bold mb-4">本当に削除しますか？</h3>
             <p className="text-sm text-gray-600 mb-4">
               確認のため、下に「
@@ -374,13 +470,27 @@ export default function StudentForm({
 
             <div className="flex justify-end gap-2">
               <button
-                className="px-4 py-2 text-gray-600 border rounded"
+              type="button"
+                className="px-4 py-2 text-gray-600 bg-gray-100 hover:bg-gray-200 border-gray-200 rounded transition-colors"
                 onClick={() => {
                   setIsDeleteModalOpen(false);
                   setDeleteConfirmText("");
                 }}
               >
-                削除を確定する
+                中止
+              </button>
+              <button
+              type="button"
+              disabled={deleteConfirmText !== "DELETE"}
+                className={`px-4 py-2 text-white transition-colors rounded ${
+                  deleteConfirmText === "DELETE"
+                  ? "bg-red-600 hover:bg-red-700"
+                  : "bg-red-300 cursor-not-allowed"
+                }`}
+                
+                onClick={handleLogicalDelete}
+                >
+                削除
               </button>
             </div>
           </div>
@@ -388,6 +498,15 @@ export default function StudentForm({
       )}
 
       <div className="mt-8 flex gap-4">
+        {isEdit && (
+  <button
+    type="button"
+    onClick={() => setIsDeleteModalOpen(true)}
+    className="px-4 py-2 bg-red-100 text-red-600 rounded hover:bg-red-200 transition-colors"
+  >
+    削除
+  </button>
+)}
         <button
           type="button"
           onClick={() => router.back()}
