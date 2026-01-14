@@ -45,8 +45,8 @@ export interface SearchFilters {
     applicationStatus?: string;
 }
 
-export type Gender = '男性' | '女性' | 'その他';
+export type Gender = 'Male' | 'Female' | 'Other' | 'Prefer Not to Say';
 export type Status = '仮申込' | '本申込' | '受講中' | '受講終了';
 
-export const GENDERS: Gender[] = ['男性', '女性', 'その他'];
+export const GENDERS: Gender[] = ['Male', 'Female', 'Other', 'Prefer Not to Say'];
 export const STATUSES: Status[] = ['仮申込', '本申込', '受講中', '受講終了'];
