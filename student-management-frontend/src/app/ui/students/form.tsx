@@ -6,6 +6,7 @@ import InputField from "../components/input-field";
 import CourseCard from "../components/course-card";
 import FormSelect from "../components/form-select";
 import { useRouter } from "next/navigation";
+import DeleteModal from "../components/delete-modal";
 
 interface StudentFormProps {
   initialData?: StudentDetail;
@@ -20,7 +21,6 @@ export default function StudentForm({ initialData, isEdit }: StudentFormProps) {
         deleteConfirmText,
         setDeleteConfirmText,
         setIsDeleteModalOpen,
-        handleDeleteToggle,
         updateCourse,
         handleLogicalDelete,
         handleRestore,
@@ -46,7 +46,7 @@ export default function StudentForm({ initialData, isEdit }: StudentFormProps) {
             <div>
               <p className="text-amber-800 font-bold">本受講生は現在アーカイブされています。</p>
             </div>
-            <button type="button" onClick={handleRestore} className="w-20 px-4 py-2 bg-amber-600 text-white font-bold rounded-md hover:bg-amber-700 transition-colors">
+            <button type="button" onClick={handleRestore} className="w-20 px-4 py-2 bg-amber-600 text-white font-bold rounded-md hover:bg-amber-700 transition-colors cursor-pointer">
               復元
             </button>
           </div>
@@ -114,7 +114,7 @@ export default function StudentForm({ initialData, isEdit }: StudentFormProps) {
           <button
             type="button"
             onClick={addCourse}
-            className="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700"
+            className="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700 cursor-pointer"
           >
             + コース追加
           </button>
@@ -130,59 +130,19 @@ export default function StudentForm({ initialData, isEdit }: StudentFormProps) {
         ))}         
       </div>
 
-      {isDeleteModalOpen && (
-        <div className="fixed inset-0 bg-gray-700 bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
-            <h3 className="text-lg font-bold mb-4">本当に削除しますか？</h3>
-            <p className="text-sm text-gray-600 mb-4">
-              確認のため、下に「
-              <span className="font-mono font-bold text-red-600">DELETE</span>
-              」と入力してください。
-            </p>
-
-            <input
-              type="text"
-              placeholder="DELETE"
-              value={deleteConfirmText}
-              onChange={(e) => setDeleteConfirmText(e.target.value)}
-              className="border w-full p-2 mb-4 rounded"
-            />
-
-            <div className="flex justify-end gap-2">
-              <button
-              type="button"
-                className="px-4 py-2 text-gray-600 bg-gray-100 hover:bg-gray-200 border-gray-200 rounded transition-colors"
-                onClick={() => {
-                  setIsDeleteModalOpen(false);
-                  setDeleteConfirmText("");
-                }}
-              >
-                中止
-              </button>
-              <button
-              type="button"
-              disabled={deleteConfirmText !== "DELETE"}
-                className={`px-4 py-2 text-white transition-colors rounded ${
-                  deleteConfirmText === "DELETE"
-                  ? "bg-red-600 hover:bg-red-700"
-                  : "bg-red-300 cursor-not-allowed"
-                }`}
-                
-                onClick={handleLogicalDelete}
-                >
-                削除
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
+     <DeleteModal
+     isDeleteModalOpen={isDeleteModalOpen}
+     deleteConfirmText={deleteConfirmText}
+     setDeleteConfirmText={setDeleteConfirmText}
+     setIsDeleteModalOpen={setIsDeleteModalOpen}
+     handleLogicalDelete={handleLogicalDelete}
+     />
       <div className="mt-8 flex gap-4">
         {isEdit && (
   <button
     type="button"
     onClick={() => setIsDeleteModalOpen(true)}
-    className="px-4 py-2 bg-red-100 text-red-600 rounded hover:bg-red-200 transition-colors"
+    className="px-4 py-2 bg-red-100 text-red-600 rounded hover:bg-red-200 transition-colors cursor-pointer"
   >
     削除
   </button>
