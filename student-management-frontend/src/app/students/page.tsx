@@ -11,13 +11,12 @@ export default async function StudentsPage({
 }: {
   searchParams?: Promise<{ query?: string }>;
 }) {
-    const { query } = await searchParams;
+  const params = await searchParams;
+  const query = params?.query || "";
   const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1'
   const apiUrl = query
     ? `${baseUrl}/students?name=${query}`
-    : `${baseUrl}/students`;
-
-  
+    : `${baseUrl}/students`;  
 
   const response = await fetch(apiUrl, {
     cache: "no-store",
