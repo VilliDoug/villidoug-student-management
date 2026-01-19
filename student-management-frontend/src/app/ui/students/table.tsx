@@ -1,78 +1,103 @@
+'use client'
+
 import { StudentDetail } from "@/app/lib/definitions";
 import Link from "next/link";
+import { useState } from "react";
+import Search from "../components/search";
 
-export default async function StudentsTable({
+export default function StudentsTable({
   students,
 }: {
   students: StudentDetail[];
 }) {
-  const safeStudents = Array.isArray(students) ? students : [];  
+  const safeStudents = Array.isArray(students) ? students : [];
+  const [searchTerm, setSearchTerm] = useState("");
+  
+  const filteredData = safeStudents.filter((s) => {
+    const searchString = 
+    `${s.student.id}
+     ${s.student.name}
+     ${s.student.kanaName}
+     ${s.student.nickname}
+     ${s.student.emailAddress}
+     ${s.student.residence}
+     ${s.student.age}
+     ${s.student.gender}`.toLowerCase();
+     return searchString.includes(searchTerm.toLowerCase());
+  });
 
   return (
+    <>
+    <div className="space-y-4 flex items-center mb-4 justify-between">
+      <h1 className="text-2xl font-bold m-0">受講生一覧</h1>
+      <Search value={searchTerm}
+      onChange={setSearchTerm}
+      placeholder="氏名やメールで検索..." />
+    </div>
     <div className=" w-full max-h-[600px] overflow-y-auto shadow-sm rounded-md border border-gray-200">
-      <table className="w-full text-left border-separate border-spacing-0 table-auto">
-        <thead>
-          <tr className="text-sm font-semibold text-gray-700">
-            <th
-              scope="col"
-              className="sticky top-0 z-10 bg-sky-200 px-4 py-3 border-b border-gray-200"
-            >
-              ID
-            </th>
-            <th
-              scope="col"
-              className="sticky top-0 z-10 bg-sky-200 px-4 py-3 border-b border-gray-200"
-            >
-              氏名
-            </th>
-            <th
-              scope="col"
-              className="sticky top-0 z-10 bg-sky-200 px-4 py-3 border-b border-gray-200"
-            >
-              カナ名
-            </th>
-            <th
-              scope="col"
-              className="sticky top-0 z-10 bg-sky-200 px-4 py-3 border-b border-gray-200"
-            >
-              ニックネーム
-            </th>
+        <table className="w-full text-left border-separate border-spacing-0 table-auto">
+          <thead>
+            <tr className="text-sm font-semibold text-gray-700">
+              <th
+                scope="col"
+                className="sticky top-0 z-10 bg-sky-200 px-4 py-3 border-b border-gray-200"
+              >
+                ID
+              </th>
+              <th
+                scope="col"
+                className="sticky top-0 z-10 bg-sky-200 px-4 py-3 border-b border-gray-200"
+              >
+                氏名
+              </th>
+              <th
+                scope="col"
+                className="sticky top-0 z-10 bg-sky-200 px-4 py-3 border-b border-gray-200"
+              >
+                カナ名
+              </th>
+              <th
+                scope="col"
+                className="sticky top-0 z-10 bg-sky-200 px-4 py-3 border-b border-gray-200"
+              >
+                ニックネーム
+              </th>
 
-            <th
-              scope="col"
-              className="sticky top-0 z-10 bg-sky-200 px-4 py-3 border-b border-gray-200"
-            >
-              メールアドレス
-            </th>
-            <th
-              scope="col"
-              className="sticky top-0 z-10 bg-sky-200 px-4 py-3 border-b border-gray-200"
-            >
-              住所
-            </th>
-            <th
-              scope="col"
-              className="sticky top-0 z-10 bg-sky-200 px-4 py-3 border-b border-gray-200"
-            >
-              年齢
-            </th>
-            <th
-              scope="col"
-              className="sticky top-0 z-10 bg-sky-200 px-4 py-3 border-b border-gray-200"
-            >
-              性別
-            </th>
+              <th
+                scope="col"
+                className="sticky top-0 z-10 bg-sky-200 px-4 py-3 border-b border-gray-200"
+              >
+                メールアドレス
+              </th>
+              <th
+                scope="col"
+                className="sticky top-0 z-10 bg-sky-200 px-4 py-3 border-b border-gray-200"
+              >
+                住所
+              </th>
+              <th
+                scope="col"
+                className="sticky top-0 z-10 bg-sky-200 px-4 py-3 border-b border-gray-200"
+              >
+                年齢
+              </th>
+              <th
+                scope="col"
+                className="sticky top-0 z-10 bg-sky-200 px-4 py-3 border-b border-gray-200"
+              >
+                性別
+              </th>
 
-            <th
-              scope="col"
-              className="sticky top-0 z-10 text-center bg-sky-200 px-4 py-3 border-b border-gray-200"
-            >
-              詳細
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {safeStudents?.filter((detail) => detail?.student && !detail.student.wasDeleted).map((detail) => (
+              <th
+                scope="col"
+                className="sticky top-0 z-10 text-center bg-sky-200 px-4 py-3 border-b border-gray-200"
+              >
+                詳細
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredData.filter((detail) => detail?.student && !detail.student.wasDeleted).map((detail) => (
               <tr
                 key={detail.student.id}
                 className="bg-white even:bg-sky-50 hover:bg-sky-100 transition-colors"
@@ -114,13 +139,15 @@ export default async function StudentsTable({
                 </td>
               </tr>
             ))}
-        </tbody>
-      </table>
-      {safeStudents.length === 0 && (
-        <div className="p-20 text-center text-gray-400 bg-white">
-          受講生データがありません。
-        </div>
-      )}
-    </div>
+          </tbody>
+        </table>
+        {filteredData.length === 0 && (
+          <div className="p-20 text-center text-gray-400 bg-white">
+            受講生データがありません。
+          </div>
+        )}
+      </div>
+      </>
+   
   );
 }

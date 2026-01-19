@@ -2,7 +2,6 @@ import Footer from "@/app/ui/components/footer";
 import Header from "@/app/ui/components/header";
 import StudentsTable from "@/app/ui/students/table";
 import { StudentDetail } from "@/app/lib/definitions";
-import Search from "@/app/ui/components/search";
 import { ArrowLeftIcon } from "@heroicons/react/16/solid";
 import Link from "next/link";
 
@@ -29,11 +28,7 @@ export default async function StudentsPage({
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Header userName="ゲスト" />
       <main className="p-8 flex-grow">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-xl px-1 font-bold">受講生一覧</h1>
-          <Search placeholder="氏名を入力" />
-        </div>
-
+     
         <StudentsTable key={query} students={safeStudents} />
         <div className="my-4 flex justify-end">
           <Link
