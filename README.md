@@ -101,23 +101,43 @@ Java・Spring BootをプログラミンスクールのWebアプリケーショ�
 <details open>
 <summary>使用イメージ</summary>
 
+## 使用イメージ
+
 ### ログイン画面・ダッシュボード
-![Login and Dashboard Pages](assets/videos/1-login-dashboard.mp4)
+
+
+https://github.com/user-attachments/assets/8b5cf63f-6df2-4cb1-82a4-3442fa7dda5b
+
 
 ### 受講生一覧・検索バー
-![Student Table and Search Bar](assets/videos/2-table-search.mp4)
+
+
+https://github.com/user-attachments/assets/47b9a2f8-bbaf-472f-82e8-5f4910e60d6f
+
 
 ### 新規登録
-![New Student Register](assets/videos/3-new-register.mp4)
+
+
+https://github.com/user-attachments/assets/1c0677de-f47a-4739-88af-f6288201f94b
+
 
 ### 受講生情報・編集
-![Edit Student Information](assets/videos/4-edit-course.mp4)
+
+
+https://github.com/user-attachments/assets/1e1cead2-e0de-43a4-aa47-b62b697f5c7b
+
 
 ### 受講生・論理削除
-![Delete Confirm Pop-up](assets/videos/5-delete.mp4)
+
+
+https://github.com/user-attachments/assets/94722523-6ab0-4076-9184-8c2b01b94c0e
+
 
 ### 削除済みから復元
-![Restore Archived Student](assets/videos/6-restore-out.mp4)
+
+
+https://github.com/user-attachments/assets/39baba89-766c-4e41-899f-27bb2abf8dc6
+
 
 </details>
 
