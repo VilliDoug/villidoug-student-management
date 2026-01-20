@@ -11,11 +11,9 @@
 
 ## サービス概要
 
-このプロジェクトは、Javaコース学習プログラムの一環として、受講生管理システムを実装し  
-【受講生・コース・申請状況　を検索・登録・更新・論理削除】できるように、REST APIを使用して開発されました。
+このプロジェクトは、オンラインITスクールのWebアプリケーション開発コースを受講中に作成しました。
+シンプルな使い方を中心にしたCRUD処理(Create, Read, Update, Delete)、受講生情報を管理するアプリケーションです。
 
-現在、アプリケーションはバックエンド開発のみを考慮して開発されています。  
-フロントエンドの開発は、学習カリキュラムに沿って行われます。
 </details>
 
 <details open>
@@ -23,24 +21,34 @@
 
 ## 技術スタック
 
-#### 開発言語・フレームワーク
-![badge](https://img.shields.io/badge/Java-21-ED8B00?logo=openjdk&logoColor=ED8B00)
-![badge](https://img.shields.io/badge/SpringBoot-3.5.6-%236DB33F?logo=spring)
+### 開発言語・フレームワーク
+#### バックエンド
+![Java](https://img.shields.io/badge/Java-21-ED8B00?logo=openjdk&logoColor=ED8B00)
+![SpringBoot](https://img.shields.io/badge/SpringBoot-3.5.6-%236DB33F?logo=spring)
 
+#### フロントエンド
+![TypeScript](https://shields.io/badge/TypeScript-5.9.3-3178C6?logo=TypeScript&logoColor=3178C6)
+![Next.js](https://img.shields.io/badge/Next.js-16.1.1-000000?logo=nextdotjs&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwind-css&logoColor=whitemarkdown)
 
-#### データベース・O/Rマッパー
-![badge](https://img.shields.io/badge/MySQL-%234479A1?logo=mysql&logoColor=white)
-![badge](https://img.shields.io/badge/MyBatis-%23DC382D?logoColor=white)
-![badge](https://img.shields.io/badge/H2%20Database-09476B?logo=h2database&logoColor=white)
+#### データベース・インフラストラクチャー
+![MySQL](https://img.shields.io/badge/MySQL-%234479A1?logo=mysql&logoColor=white)
+![MyBatis](https://img.shields.io/badge/MyBatis-%23DC382D?logoColor=white)
+![H2 Database](https://img.shields.io/badge/H2%20Database-09476B?logo=h2database&logoColor=white)
+![AWS](https://custom-icon-badges.demolab.com/badge/AWS-%23FF9900.svg?logo=aws&logoColor=white)
 
 #### ドキュメンテーション・ツール
-![badge](https://img.shields.io/badge/Gradle-8.14.3-02303A?logo=gradle&logoColor=white)
-![badge](https://img.shields.io/badge/Junit5-%2325A162?logo=junit5&logoColor=white)
-![badge](https://img.shields.io/badge/Postman-%23FF6C37?logo=postman&logoColor=white)
-![badge](https://img.shields.io/badge/Swagger-%2385EA2D?logo=swagger&logoColor=white)
-![badge](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=white)
-![badge](https://img.shields.io/badge/GitHub-%23181717?logo=github&logoColor=white)
-![badge](https://img.shields.io/badge/-IntelliJ%20IDEA-000.svg?logo=intellij-idea&style=flat)
+![Gradle](https://img.shields.io/badge/Gradle-8.14.3-02303A?logo=gradle&logoColor=white)
+![JUnit5](https://img.shields.io/badge/Junit5-%2325A162?logo=junit5&logoColor=white)
+![Postman](https://img.shields.io/badge/Postman-%23FF6C37?logo=postman&logoColor=white)
+![Swagger](https://img.shields.io/badge/Swagger-%2385EA2D?logo=swagger&logoColor=white)
+![Git](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-%23181717?logo=github&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?logo=github-actions&logoColor=white)
+![IntelliJ IDEA Community Edition](https://img.shields.io/badge/-IntelliJ%20IDEA-000.svg?logo=intellij-idea&style=flat)
+![Visual Studio Code](https://custom-icon-badges.demolab.com/badge/Visual%20Studio%20Code-0078d7.svg?logo=vsc&logoColor=white)
+![ESLint](https://img.shields.io/badge/ESLint-3A33D1?logo=eslint)
+![Prettier](https://img.shields.io/badge/Prettier-F7B93E?style=flat&logo=Prettier&logoColor=white)
 
 </details>
 <details open>
@@ -52,11 +60,20 @@ Java・Spring BootをプログラミンスクールのWebアプリケーショ�
 
 #### →開発の流れ
 
+#### バックエンド
+
 1. 講座を視聴し、技術やツールの知識を得る。
 2. 課題に基づいた新機能を実装する。
 3. **プルリクエスト形式で提出し、講師に確認してもらう。**
 4. レビューを基にした修正・追加を行う。
 5. 問題なければ、次の講座へ進む。
+
+#### フロントエンド
+
+1. Google Geminiの「ガイド付き学習モード」を使用し、フロントエンド設計や機能を考慮。
+2. Next.js・TailwindCSS・フォーラム、様々なドキュメントや既存アプリを参考にして実装。
+3. Google Chrome検証モードを使いながら動作確認。
+4. 一つの機能を実装した後、次の機能をTrelloに追加し、翌日より実装を続く
 
 </details>
 <details open>
@@ -81,6 +98,29 @@ Java・Spring BootをプログラミンスクールのWebアプリケーショ�
     - 申込状況: 仮申込、本申込、受講中、受講終了をもつオブジェクト<br/>
 
 </details>
+<details open>
+<summary>使用イメージ</summary>
+
+### ログイン画面・ダッシュボード
+![Login and Dashboard Pages](assets/videos/1-login-dashboard.mp4)
+
+### 受講生一覧・検索バー
+![Student Table and Search Bar](assets/videos/2-table-search.mp4)
+
+### 新規登録
+![New Student Register](assets/videos/3-new-register.mp4)
+
+### 受講生情報・編集
+![Edit Student Information](assets/videos/4-edit-course.mp4)
+
+### 受講生・論理削除
+![Delete Confirm Pop-up](assets/videos/5-delete.mp4)
+
+### 削除済みから復元
+![Restore Archived Student](assets/videos/6-restore-out.mp4)
+
+</details>
+
 <details open>
 <summary>設計書</summary>
 
@@ -429,8 +469,12 @@ deactivate Ctrl
 
 ## 力を入れたところ
 
-・WEBアプリ開発はゼロからの学習でしたので、オブジェクト指向、命名規則、開発の流れを中心にしてきました。
-最終課題に「申込状況」の追加と言うことで、全体的にリファクタリングし、メソッド名やテストケースを修正しました。
+・このアプリケーションはWebアプリ開発の知識をゼロから挑戦し、環境構築からフルスタックアプリまで、
+色んな技術やツールを怖がらず試し、単純に言うと楽しく実装してきました。
+
+Java・SpringBootのコースを完走した後、フロントエンドを勉強して、最新技術を使用したアプリケーションになります。
+
+Javaコースの最終課題に「申込状況」の追加と言うことで、全体的にリファクタリングし、メソッド名やテストケースを修正しました。
 
 - StudentDetail
   - Student
@@ -449,6 +493,7 @@ deactivate Ctrl
 ・URI Path を REST APIエンドポイントの命名に関するベストプラクティスを考慮しました。
 
 →/registerStudent・/updateStudent・などを　/students・/students/{id}　に変更。
+その後、フロントエンドを実装する時に＠RequestMapping("/api/v1...")を追加。
 
 ・クライアント側でユーザビリティを大切にして、自動採番処理を実装してきました。
 
@@ -456,11 +501,25 @@ deactivate Ctrl
 - 登録のリクエスト　→　コース開始日、申込状況を自動採番
 - 論理削除をしたい場合は、更新処理で簡単にできるようにしています(削除フラグを変更)
 
+・フロントエンド機能について
+
+話題のNext.jsに興味があり、JavaScript,TypeScript,Reactの基礎知識を学習し、
+Next.js公式サイトにある「App Router」コースを独学しました。
+
+設計やReact Treeを大事にして、ユーザーが簡単に使えるようにフロントエンドを実装してみました。
+
 【AWS環境でのデプロイと運用】 
 ・ EC2、RDS、VPC、セキュリティグループ、そしてNACLを使用して、アプリケーションをAWS上にデプロイしました。
+≪現在、デプロイはしていません≫
 
-【最大の課題：ネットワーク接続】
-外部からのWebアクセス (Port 8080) や、EC2からRDSへのDB接続の際、NACLのアウトバウンド・インバウンドルール設定で苦戦しました。特に、応答パケット用のエフェメラルポートの必要性を深く理解しました。  
+【最大の課題：独学から実際にコーディングへ】
+Javaコース中でも感じたことであり、プログラミング文法を覚えても、実装までの流れは難しいと思いました。
+しかし、経験者でも完璧に実装をできることはなく、調べる・エラーに慣れる・質問をする・手を動かすことが一番大事だと思います。
+
+フロントエンドは特に、メンターや講師に一切連絡取れず、自分の力でドキュメント・フォーラム・AIツールなどを使用しながら、モダーン的な流れでした。
+
+その結果は、チームやサポーターがいることを大切にし、コミュニケーションをうまく取るのと、遠慮なく手を上げて質問することが最も大事だと思います。
+
 
 </details>
 <details open>
@@ -468,15 +527,15 @@ deactivate Ctrl
 
 ## 今後の展望
 
-・現在、デプロイを学習しており(CI:CD, GitHubActions, Docker)、
-早いうちにデプロイをできるように進んでいきます。
-
-・デプロイ後は、フロントエンド(JavaScript → React → Next.js)の学習をして、実装するつもりです。<br/>
-ユーザビリティを中心にしてプロジェクトを作成していきたいです。
-
-・Homeページ<br/>
-・ページネーション<br/>
-・DBの外部キー設定<br/>
+・Light/Darkモード
+・受講生カード機能に、ユーザー側よりプロフィール写真を追加できるように。
+・レスポンシブ対応
+  →スマホやタブレットでアプリを使用する時、ユーザビリティを中心にして実装。
+・ログイン機能
+  →ログイン済みの時だけ編集や新規登録ができる。ゲストとして使用中に個人情報を表示せず、編集ができないことなどを実装。
+・フルスタックアプリケーションとしてデプロイ。
+・フロントエンドテストを追加。
+・スタイリングをよくする。
 
 </details>
 </details>
